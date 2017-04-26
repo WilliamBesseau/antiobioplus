@@ -1,15 +1,16 @@
 <?php
 require("config.php");
 session_start();
-if(isset($_GET["idmsg"])) 
+if(isset($_SESSION['Nom'])) 
 {
-	echo "Session de test";
+    echo "Vous êtes connectez en tant que équipe "$_SESSION['Nom'];
 }
 else
 {
-	header("location: ../index.php");
+    header("location: ../index.php");
 }
 ?>
+
 <!DOCTYPE html>
 
 <html>
@@ -32,5 +33,8 @@ else
 </head>
 
 <body>
-bonjour
-</body>
+
+        <div class="container">
+            <font color="#4CAF50">
+            <h1>Page Session de test</h1>
+            </font>
