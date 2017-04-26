@@ -8,7 +8,7 @@ $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::P
 $user = $_POST['user'];
 $password = $_POST['pass'];
 
-$req = $mysqli->prepare('SELECT id, nom FROM administrateur WHERE login =? && password =?');
+$req = $mysqli->prepare('SELECT id, nom FROM administrateur WHERE login =? && mdp =?');
 $req->bind_param('si', $user, $password);
 $req->execute();
 $resultat = $req->fetch();
