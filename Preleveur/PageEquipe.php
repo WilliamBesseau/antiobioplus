@@ -54,10 +54,11 @@ else
                 </tr>
                 <?php
                 $req->execute();
-				$resultat = $req->fetch();
-                while($resultat=$req->fetch()) { ?>
-                <td><?php echo $resultat['Nom']; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg=' . $resultat['id'] . '">Traiter cette session</a>'; ?></td>
+                $req->bind_result($id, $nom);
+
+                while($resultat=$req->fetch()){ ?>
+                <td><?php echo $nom; ?></td>
+                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
                 <?php } ?>
             </table>
 

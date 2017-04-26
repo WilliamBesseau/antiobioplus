@@ -1,8 +1,8 @@
 <?php
-require("config.php");
-if(isset($_SESSION['Nom'])) 
+require("../Sysconf/config.php");
+if(isset($_SESSION['nom']))
 {
-    echo "Vous êtes connectez en tant que équipe "$_SESSION['Nom'];
+    echo "Vous êtes connectez en tant que équipe ".$_SESSION['nom'];
 }
 else
 {
@@ -38,7 +38,7 @@ else
             <h1>Page Session de test</h1>
             </font>
             <?php 
-            $idSession = $_GET["idmsg"]);
+            $idSession = $_GET["idMsg"];
             
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
 
@@ -58,7 +58,6 @@ else
                     <th>Pour molécule <? $resultat['nom'] ?></th>
                     <?
                     $req2->execute();
-                    $resultat2 = $req2->fetch();
                     while($resultat2=$req2->fetch()) { ?>
                     <th><? echo $resultat2['nom']; ?></th>
                     <? } ?>
