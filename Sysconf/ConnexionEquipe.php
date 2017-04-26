@@ -1,4 +1,6 @@
-<?php 
+
+
+<?php
 require("config.php");
 
 if(isset($_POST)){
@@ -15,19 +17,20 @@ if (!$resultat)
     header("location: ../index.php?mdp=faux");
 }
 else
-{   
-    if(!isset($_SESSION)) 
-    { 
+{
+    if(!isset($_SESSION))
+    {
     	session_start();
         $_SESSION['Nom'] = $resultat[0]["Nom"];
         $_SESSION['id'] = $resultat[0]["id"];
         header("location: ../Preleveur/PageEquipe.php");
 
     }
-    
+
 }
 }
 else
     {
       header("location: ../index.php");
     }
+?>
