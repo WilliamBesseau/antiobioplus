@@ -9,7 +9,7 @@ $user = $_POST['user'];
 $password = $_POST['pass'];
 
 $req = $mysqli->prepare('SELECT id, nom FROM administrateur WHERE login =? && mdp =?');
-$req->bind_param('si', $user, $password);
+$req->bind_param('ss', $user, $password);
 $req->execute();
 $resultat = $req->fetch();
 
