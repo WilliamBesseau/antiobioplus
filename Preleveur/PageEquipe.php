@@ -3,7 +3,7 @@ require("config.php");
 session_start();
 if(isset($_SESSION['Nom'])) 
 {
-	echo "bonjour "$_SESSION['Nom'];
+	echo "Vous êtes connectez en tant que équipe "$_SESSION['Nom'];
 }
 else
 {
@@ -38,7 +38,7 @@ else
             <h1>Page Equipe</h1>
             </font>
 
-            <h2>PIN équipe</h2><br>
+            
 
             <table>
             	<?php
@@ -49,8 +49,8 @@ else
             </table>
             <table>
                 <tr>
-                    <th>id</th>
-                    <th>Jeu</th>
+                    <th>Session</th>
+                    <th>Traiter</th>
                 </tr>
                 <?
                 $req->execute();
