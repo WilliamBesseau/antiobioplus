@@ -38,3 +38,11 @@ else
             <font color="#4CAF50">
             <h1>Page Session de test</h1>
             </font>
+            <?php $_GET["idmsg"]) = $idSession
+            
+            $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
+            $req = $mysqli->prepare('SELECT nom FROM molecule WHERE id_equipe =?');
+            $req->bind_param('i', $_SESSION['id']);
+            ?>
+
+             ?>

@@ -43,7 +43,7 @@ else
             <table>
             	<?php
             	$mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            	$req = $mysqli->prepare('SELECT id, nom FROM session join  WHERE id_equipe =?');
+            	$req = $mysqli->prepare('SELECT id, nom FROM session WHERE id_equipe =?');
             	$req->bind_param('i', $_SESSION['id']);
             	?>
             </table>
