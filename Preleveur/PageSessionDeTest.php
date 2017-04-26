@@ -42,33 +42,36 @@ else
             
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
 
-            $req = $mysqli->prepare('SELECT nom FROM antibiotique a join session s on s.id_antibiotique=a.id WHERE s.id=?');
+            $req = $mysqli->prepare('SELECT nom FROM antibiotique WHERE id=?');
             $req->bind_param('i', $idSession);
             $req->execute();
             $resultat = $req->fetch();
 
-            $req2 = $mysqli->prepare('SELECT nom FROM molecule');
-
+            $sql2 = 'SELECT nom FROM molecule_antibioplus';
+            $req2 = $mysqli->prepare($sql2);
+            $req2->execute();
+            $req2->bind_result($nom);
+            
             $req3 = $mysqli->prepare('SELECT nom FROM bacterie');
-
+            $req3->execute();
             ?>
 
             <table>
                 <tr>
                     <th>Pour molécule <? $resultat['nom'] ?></th>
-                    <?
-                    $req2->execute();
+                    <?php
+                    
                     while($resultat2=$req2->fetch()) { ?>
-                    <th><? echo $resultat2['nom']; ?></th>
-                    <? } ?>
+                    <th><?php echo $resultat2['nom']; ?></th>
+                    <?php } ?>
                 </tr>
 
-                <?
-                $req3->execute();
+                <?php
+                
                 $resultat3 = $req3->fetch();
                 while($resultat3=$req3->fetch()) { ?>
-                <tr><? echo $resultat3['nom']; ?></tr>
-                <? } ?>
+                <tr><?php echo $resultat3['nom']; ?></tr>
+                <?php } ?>
 
 
 
