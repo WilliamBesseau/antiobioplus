@@ -1,14 +1,14 @@
 <?php
-require("config.php");
-session_start();
-if(isset($_SESSION['Nom'])) 
+require("../Sysconf/config.php");
+if(isset($_SESSION['nom']))
 {
-	echo "Vous êtes connectez en tant que équipe "$_SESSION['Nom'];
+    echo "Vous êtes connectez en tant que équipe ".$_SESSION['nom'];
 }
 else
 {
-	header("location: ../index.php");
+    header("location: ../index.php");
 }
+
 ?>
 <!DOCTYPE html>
 
@@ -40,24 +40,27 @@ else
 
             
 
-            <table>
-            	<?php
-            	$mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            	$req = $mysqli->prepare('SELECT id, nom FROM session WHERE id_equipe =?');
-            	$req->bind_param('i', $_SESSION['id']);
-            	?>
-            </table>
-            <table>
+            
+            <?php
+            $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
+            $req = $mysqli->prepare('SELECT id, nom FROM session WHERE id_equipe =?');
+            $req->bind_param('i', $_SESSION['id']);
+        	?>
+            
+            <table class="table">
                 <tr>
                     <th>Session</th>
                     <th>Traiter</th>
                 </tr>
-                <?
+                <?php
                 $req->execute();
 				$resultat = $req->fetch();
                 while($resultat=$req->fetch()) { ?>
-                <td><? echo $resultat['Nom']; ?></td>
-                <td><? echo '<a href="PageSessionDeTest.php?idMsg=' . $resultat['id'] . '">Traiter cette session</a>'; ?></td>
+                <td><?php echo $resultat['Nom']; ?></td>
+                <td><?php echo '<a href="PageSessionDeTest.php?idMsg=' . $resultat['id'] . '">Traiter cette session</a>'; ?></td>
+                <?php } ?>
             </table>
 
         </div>
+</body>
+</html>

@@ -1,6 +1,5 @@
 <?php
 require("config.php");
-session_start();
 if(isset($_SESSION['Nom'])) 
 {
     echo "Vous êtes connectez en tant que équipe "$_SESSION['Nom'];
@@ -38,11 +37,40 @@ else
             <font color="#4CAF50">
             <h1>Page Session de test</h1>
             </font>
-            <?php $_GET["idmsg"]) = $idSession
+            <?php 
+            $idSession = $_GET["idmsg"]);
             
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            $req = $mysqli->prepare('SELECT nom FROM molecule WHERE id_equipe =?');
-            $req->bind_param('i', $_SESSION['id']);
+
+            $req = $mysqli->prepare('SELECT nom FROM antibiotique a join session s on s.id_antibiotique=a.id WHERE s.id=?');
+            $req->bind_param('i', $idSession);
+            $req->execute();
+            $resultat = $req->fetch();
+
+            $req2 = $mysqli->prepare('SELECT nom FROM molecule');
+
+            $req3 = $mysqli->prepare('SELECT nom FROM bacterie');
+
             ?>
 
-             ?>
+            <table>
+                <tr>
+                    <th>Pour molécule <? $resultat['nom'] ?></th>
+                    <?
+                    $req2->execute();
+                    $resultat2 = $req2->fetch();
+                    while($resultat2=$req2->fetch()) { ?>
+                    <th><? echo $resultat2['nom']; ?></th>
+                    <? } ?>
+                </tr>
+
+                <?
+                $req3->execute();
+                $resultat3 = $req3->fetch();
+                while($resultat3=$req3->fetch()) { ?>
+                <tr><? echo $resultat3['nom']; ?></tr>
+                <? } ?>
+
+
+
+            </table>
