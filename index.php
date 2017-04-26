@@ -1,4 +1,4 @@
-<?php 
+<?php
 if(isset($_SESSION)){
 unset($_SESSION);
 session_destroy();
@@ -42,7 +42,7 @@ session_destroy();
 
             <form action="Sysconf/ConnexionAdmin.php" method="post">
 
-                <h2>Connexion</h2><br>
+                <h2>Connexionnnnnnnn</h2><br>
 
                 <input type="text" name="user" placeholder="Nom d'utilisateur"> <br> <br>
                 <input type="password" name="pass" placeholder="Mot de passe"> <br> <br>
