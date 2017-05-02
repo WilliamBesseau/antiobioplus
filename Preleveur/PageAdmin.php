@@ -43,20 +43,17 @@ else
 
             <?php
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            $req = $mysqli->prepare('SELECT id, nom FROM session WHERE id_equipe =?');
-            $req->bind_param('i', $_SESSION['id']);
+            $req1 = $mysqli->prepare('SELECT id, nom FROM session WHERE en_cours = 1');
+            $req1->execute();
+            $req1->bind_result($id, $nom);
         	?>
 
             <table class="table">
-                <tr>
-                    <th>Session</th>
-                    <th>Traiter</th>
-                </tr>
-                <?php
-                $req->execute();
-                $req->bind_result($id, $nom);
 
-                while($resultat=$req->fetch()){ ?>
+                <?php
+
+
+                while($resultat=$req1->fetch()){ ?>
                 <td><?php echo $nom; ?></td>
                 <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
                 <?php } ?>
