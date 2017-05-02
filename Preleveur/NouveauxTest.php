@@ -39,18 +39,22 @@ else
             </font>
 
             <form class='' action='' method='post'>
-            
-            Selectionner la molécule antibioplus concernée <br>
+            <h4>
+            Selectionner la molécule antibioplus concernée <br><br>
             <?php
+
             $idSession = $_GET["idM"];
 
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            $req=$mysqli->prepare('SELECT id FROM etude e JOIN session s on s.id_etude=e.id WHERE s.id=?');
+
+            $req=$mysqli->prepare('SELECT e.id FROM etude e JOIN session s on s.id_etude=e.id WHERE s.id=?');
             $req->bind_param('i', $idSession);
             $req->execute();
             $req->bind_result($idEtude);
+            $resultat = $req->fetch();
+            $req->close();
 
-            $req2=$mysqli->prepare('SELECT nom FROM molecule_antibioplus m JOIN etude_molecule em on em.id_molecule=m.id JOIN etude e on e.id=em.id_etude WHERE e.id=?');
+            $req2=$mysqli->prepare('SELECT m.nom FROM molecule_antibioplus m JOIN etude_molecule em on em.id_molecule=m.id JOIN etude e on e.id=em.id_etude WHERE e.id=?');
             $req2->bind_param('i', $idEtude);
             $req2->execute();
             $req2->bind_result($NomMolecule);
@@ -58,12 +62,14 @@ else
             while ($req2->fetch()) {
             printf("<option> $NomMolecule");
             }
+            $req2->close();
             ?>
-            </select>
 
-            Selectionner la bacterie concernée <br>
+            </select> <br><br>
+
+            Selectionner la bacterie concernée <br><br>
             <?php
-            $req3=$mysqli->prepare('SELECT nom FROM bacterie b JOIN etude_bacterie eb on eb.id_bacterie=b.id JOIN etude e on e.id=eb.id_etude WHERE e.id=?');
+            $req3=$mysqli->prepare('SELECT b.nom FROM bacterie b JOIN etude_bacterie eb on eb.id_bacterie=b.id JOIN etude e on e.id=eb.id_etude WHERE e.id=?');
             $req3->bind_param('i', $idEtude);
             $req3->execute();
             $req3->bind_result($NomBacterie);
@@ -71,12 +77,15 @@ else
             while ($req3->fetch()) {
             printf("<option> $NomBacterie");
             }
+            $req3->close();
             ?>
             </select>
+            <br><br>
 
-            Diamètre : <input type="text" name="Diamètre" required> <br>
-            <input type='hidden' name='idSession' value='$idSession'>
+            Diamètre : <input type="text" name="Diametre" required> <br><br>
+            <input type='hidden' name='idSession' value=<?php echo $idSession; ?>>
             <input class="btn btn-info" type='submit' name='inserer' value='Valider'>
+            </h4>
 
 <?php
 if (isset($_POST['inserer'])) {
@@ -91,18 +100,21 @@ if (isset($_POST['inserer'])) {
         $req4->bind_param("s", $Molecule);
         $req4->execute();
         $req4->bind_result($idMolecule);
+        $req4->close();
 
         $req5=$mysqli->prepare("SELECT id FROM bacterie WHERE nom=?");
         $req5->bind_param("s", $Bacterie);
         $req5->execute();
         $req5->bind_result($idBacterie);
+        $req5->close();
 
-        $req6=$mysqli->prepare("INSERT INTO `test` (`id`, `diametre`, `id_molecule`, `id_session`, `id_bacterie`) VALUES (NULL, ?, ?, ?, ?);");
+        $req6=$mysqli->prepare("INSERT INTO `test` (`id`, `diametre`, `id_molecule`, `id_session`, `id_bacterie`) VALUES (30, ?, ?, ?, ?);");
         $req6->bind_param("iiii", $Diametre, $idMolecule, $id_session, $idBacterie);
         $req6->execute();
+        $req6->close();
 
         echo "<h2 align='center' style='color:green;'>Votre test a été créé avec succès ! Vous allez être rediriger vers la page de session d'ici quelques secondes</h2>";
-                header("location: PageSessionDeTest.php?idMsg='". $id ."'");
+                header("Refresh: 4; URL='PageSessionDeTest.php?idMsg=".$id_session."'");
     }
 
 ?>

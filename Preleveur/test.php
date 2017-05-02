@@ -22,25 +22,11 @@ require("../Sysconf/config.php"); ?>
 </head>
 
 <body>
-
-<table class="table">
-    <tr>
-        <th></th>
 <?php
 $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-$req_molecule = $mysqli->prepare('SELECT t.diametre, m.id, m.nom, b.id, b.nom FROM Test t LEFT OUTER JOIN molecule_antibioplus m on m.id=t.id_molecule LEFT OUTER JOIN bacterie b on b.id=t.id_bacterie WHERE id_session=1');
-$req_molecule->execute();
-$req_molecule->bind_result($diametree, $idm, $nomm, $idb, $nomb);
-while ($row = $req_molecule->fetch()) {
-    $tblMolecule[$idm] = $nomm;
-    echo '<th>' . $nomm . '</th>
-    <tr>
-    <td>' . $nomb . '</td>';
-            foreach ($tblMolecule as $id_molecule=>$nom_molecule) {
-                $test = isset($tblSession[$idb][$id_molecule]) ? $tblSession[$idb][$id_molecule] : 0;
-                echo '<td>' . $diametree. '</td>';
-            }
-            echo '<tr>';
-}
+            $req=$mysqli->prepare('SELECT m.nom FROM molecule_antibioplus m JOIN etude_molecule em on em.id_molecule=m.id JOIN etude e on e.id=em.id_etude WHERE e.id=2');
+            $req->execute();
+            $result=$req->fetch();
+            echo $result, $result;
+
 ?>
-</table>
