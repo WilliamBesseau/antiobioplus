@@ -11,6 +11,7 @@ $password = $_POST['pass'];
 $req = $mysqli->prepare('SELECT id, nom FROM administrateur WHERE login =? && mdp =?');
 $req->bind_param('ss', $user, $password);
 $req->execute();
+$req->bind_result($id, $nom);
 $resultat = $req->fetch();
 
 if (!$resultat)
@@ -19,14 +20,12 @@ if (!$resultat)
 }
 else
 {
-    if(!isset($_SESSION))
-    {
-    	session_start();
-        $_SESSION['Nom'] = $resultat[0]["Nom"];
-        $_SESSION['id'] = $resultat[0]["id"];
-        header("location: ../Preleveur/PageAdmin.php");
 
-    }
+    	session_start();
+      $_SESSION['Nom'] = $nom;
+      $_SESSION['id'] = $id;
+      header("location: ../Preleveur/PageAdmin.php");
+
 
 }
 }

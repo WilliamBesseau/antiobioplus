@@ -2,7 +2,7 @@
 require("../Sysconf/config.php");
 if(isset($_SESSION['nom']))
 {
-    echo "Vous êtes connecté en tant que équipe ".$_SESSION['nom'];
+    echo "Vous êtes connecté en tant qu'équipe ".$_SESSION['nom'];
 }
 else
 {
@@ -35,52 +35,29 @@ else
 
         <div class="container">
             <font color="#4CAF50">
-            <h1>Page Equipe</h1><br>
+            <h1>Page Equipe</h1>
             </font>
-            <h2>Vos sessions en cours</h2>            
 
-            
+
+
+
             <?php
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            $req = $mysqli->prepare('SELECT s.id, s.nom FROM session s JOIN etude e on e.id=s.id_etude WHERE e.en_cours = 1 AND s.id_equipe =?');
-            $req->bind_param('i', $_SESSION['id']);
+            $req1 = $mysqli->prepare('SELECT id, nom FROM session WHERE en_cours = 1');
+            $req1->execute();
+            $req1->bind_result($id, $nom);
         	?>
 
             <table class="table">
-                <tr>
-                    <th>Session</th>
-                    <th>Traiter</th>
-                </tr>
-                <?php
-                $req->execute();
-                $req->bind_result($id, $nom);
 
-                while($resultat=$req->fetch()){ ?>
+                <?php
+
+
+                while($resultat=$req1->fetch()){ ?>
                 <td><?php echo $nom; ?></td>
                 <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
                 <?php } ?>
             </table>
-            <br>
-
-            <h2>Vos sessions finies</h2>
-            <?php
-            $req2 = $mysqli->prepare('SELECT s.id, s.nom FROM session s JOIN etude e on e.id=s.id_etude WHERE e.en_cours = 0 AND s.id_equipe =?');
-            $req2->bind_param('i', $_SESSION['id']);
-            ?>
-            
-            <table class="table">
-                <tr>
-                    <th>Session</th>
-                    <th>Voir</th>
-                </tr>
-                <?php
-                $req2->execute();
-                $req2->bind_result($id, $nom);
-
-                while($resultat2=$req2->fetch()){ ?>
-                <td><?php echo $nom; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
-                <?php } ?>
 
         </div>
 </body>
