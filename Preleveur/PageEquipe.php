@@ -45,7 +45,7 @@ else
             $req = $mysqli->prepare('SELECT s.id, s.nom FROM session s JOIN etude e on e.id=s.id_etude WHERE e.en_cours = 1 AND s.id_equipe =?');
             $req->bind_param('i', $_SESSION['id']);
         	?>
-
+            
             <table class="table">
                 <tr>
                     <th>Session</th>
@@ -56,8 +56,8 @@ else
                 $req->bind_result($id, $nom);
 
                 while($resultat=$req->fetch()){ ?>
-                <td><?php echo $nom; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
+                <tr><td><?php echo $nom; ?></td>
+                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td></tr>
                 <?php } ?>
             </table>
             <br>
@@ -78,8 +78,8 @@ else
                 $req2->bind_result($id, $nom);
 
                 while($resultat2=$req2->fetch()){ ?>
-                <td><?php echo $nom; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td>
+                <tr><td><?php echo $nom; ?></td>
+                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td></tr>
                 <?php } ?>
 
         </div>
