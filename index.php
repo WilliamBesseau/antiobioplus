@@ -1,5 +1,7 @@
 <?php
-if(isset($_SESSION)){
+if(isset($_SESSION['nom']))
+{
+    echo "zizi";
 unset($_SESSION);
 session_destroy();
 }
@@ -39,7 +41,7 @@ session_destroy();
                 <input type="password" name="PIN" placeholder="Mot de passe"> <br> <br>
                 <input type="submit" class="btn btn-info" value="valider">
             </form>
-
+            <?php if(isset($_GET["mdp"])=="faux") {echo "Mauvais nom d'utilisateur ou mauvais mot de passe";} ?>
             <form action="Sysconf/ConnexionAdmin.php" method="post">
 
                 <h2>Connexion</h2><br>

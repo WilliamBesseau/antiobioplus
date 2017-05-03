@@ -1,5 +1,3 @@
-
-
 <?php
 require("config.php");
 
@@ -16,7 +14,7 @@ $resultat = $req->fetch();
 
 if (!$resultat)
 {
-    header("location: ../index.php?mdp=faux");
+    header("location: ../index.php?mdp=faux2");
 }
 else
 {
@@ -24,7 +22,7 @@ else
     	session_start();
       $_SESSION['Nom'] = $nom;
       $_SESSION['id'] = $id;
-      header("location: ../Preleveur/PageAdmin.php");
+      header("location: ../AdministrateurPageAdmin.php");
 
 
 }

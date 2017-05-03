@@ -89,7 +89,6 @@ else
 
 <?php
 if (isset($_POST['inserer'])) {
-        echo "Votre test a bien été traité";
         $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
         $Diametre = $_POST['Diametre'];
         $Bacterie = $_POST['BacterieSelection'];
@@ -100,17 +99,20 @@ if (isset($_POST['inserer'])) {
         $req4->bind_param("s", $Molecule);
         $req4->execute();
         $req4->bind_result($idMolecule);
+        $resultat4=$req4->fetch();
         $req4->close();
 
         $req5=$mysqli->prepare("SELECT id FROM bacterie WHERE nom=?");
         $req5->bind_param("s", $Bacterie);
         $req5->execute();
         $req5->bind_result($idBacterie);
+        $resultat5=$req5->fetch();
         $req5->close();
-
-        $req6=$mysqli->prepare("INSERT INTO `test` (`id`, `diametre`, `id_molecule`, `id_session`, `id_bacterie`) VALUES (30, ?, ?, ?, ?);");
+        
+        $req6=$mysqli->prepare("INSERT INTO test (diametre, id_molecule, id_session, id_bacterie) VALUES (?, ?, ?, ?);");
         $req6->bind_param("iiii", $Diametre, $idMolecule, $id_session, $idBacterie);
         $req6->execute();
+        $resultat6 = $req6->fetch();
         $req6->close();
 
         echo "<h2 align='center' style='color:green;'>Votre test a été créé avec succès ! Vous allez être rediriger vers la page de session d'ici quelques secondes</h2>";

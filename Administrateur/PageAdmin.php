@@ -2,7 +2,7 @@
 require("../Sysconf/config.php");
 if(isset($_SESSION['nom']))
 {
-    echo "Vous êtes connecté en tant que équipe ".$_SESSION['nom'];
+    echo "Vous êtes connecté en tant qu'équipe ".$_SESSION['nom'];
 }
 else
 {
@@ -35,56 +35,62 @@ else
 
         <div class="container">
             <font color="#4CAF50">
-            <h1>Page Equipe</h1><br>
-            <a href="../index.php">Retour à la connexion</a>
+            <h1>Page Administrateur</h1>
             </font>
-            <h2>Vos sessions en cours</h2>            
+            <h2>Vos études en cours</h2>
 
-            
+
+
+
             <?php
             $mysqli = new mysqli(config_local::SERVERNAME,config_local::USER,config_local::PASSWORD,config_local::DBNAME);
-            $req = $mysqli->prepare('SELECT s.id, s.nom FROM session s JOIN etude e on e.id=s.id_etude WHERE e.en_cours = 1 AND s.id_equipe =?');
-            $req->bind_param('i', $_SESSION['id']);
+            $req1 = $mysqli->prepare('SELECT id, nom FROM etude WHERE en_cours = 1');
+            $req1->execute();
+            $req1->bind_result($id, $nom);
         	?>
-            
+
             <table class="table">
                 <tr>
-                    <th>Session</th>
-                    <th>Traiter</th>
+                    <th>Etude</th>
+                    <th>Traiter</th>                    
+                    <th>Supprimer</th>
                 </tr>
                 <?php
-                $req->execute();
-                $req->bind_result($id, $nom);
 
-                while($resultat=$req->fetch()){ ?>
+                while($resultat=$req1->fetch()){ ?>
                 <tr><td><?php echo $nom; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Traiter cette session</a>'; ?></td></tr>
+                <td><?php echo '<a href="PageModifEtude.php?idMsg='. $id .'">Traiter cette étude</a>'; ?></td>
+                <td><?php echo '<a href="SupprimerEtude.php?idMsg='. $id .'" style="color: red;" onClick="return confirm('."'".'Êtes vous sûr de vouloir supprimer cette étude?'."'".')">Supprimer cette étude</a>'; ?></td></tr>
+                <?php } ?>
+            </table>
+
+            <h2>Vos études finies</h2>
+
+
+
+
+            <?php
+            $req2 = $mysqli->prepare('SELECT id, nom FROM etude WHERE en_cours = 0');
+            $req2->execute();
+            $req2->bind_result($id2, $nom2);
+            ?>
+
+            <table class="table">
+                <tr>
+                    <th>Etude</th>
+                    <th>Voir</th>
+                    <th>Supprimer</th>
+                </tr>
+                <?php
+
+                while($resultat=$req2->fetch()){ ?>
+                <tr><td><?php echo $nom2; ?></td>
+                <td><?php echo '<a href="PageEtude.php?idMsg='. $id2 .'">Voir cette étude</a>'; ?></td>
+                <td><font color="red"><?php echo '<a href="SupprimerEtude.php?idMsg='. $id2 .'" style="color: red;" onClick="return confirm('."'".'Êtes vous sûr de vouloir supprimer cette étude?'."'".')">Supprimer cette étude</a>'; ?></font></td></tr>
                 <?php } ?>
             </table>
             <br>
-
-            <h2>Vos sessions finies</h2>
-            <?php
-            $req2 = $mysqli->prepare('SELECT s.id, s.nom FROM session s JOIN etude e on e.id=s.id_etude WHERE e.en_cours = 0 AND s.id_equipe =?');
-            $req2->bind_param('i', $_SESSION['id']);
-            ?>
-            
-            <table class="table">
-                <tr>
-                    <th>Session</th>
-                    <th>Voir</th>
-                </tr>
-                <?php
-                $req2->execute();
-                $req2->bind_result($id, $nom);
-
-                while($resultat2=$req2->fetch()){ ?>
-                <tr><td><?php echo $nom; ?></td>
-                <td><?php echo '<a href="PageSessionDeTest.php?idMsg='. $id .'">Voir cette session</a>'; ?></td></tr>
-                <?php } ?>
-
-                <br>
-                
+            <a href="../index.php">Retour à la connexion</a>'; ?>
         </div>
 </body>
 </html>
